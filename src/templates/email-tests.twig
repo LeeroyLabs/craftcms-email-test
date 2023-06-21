@@ -1,0 +1,63 @@
+{% extends "_layouts/cp" %}
+{% import '_includes/forms' as forms %}
+
+{% set title = 'Admin:EmailTests' | t %}
+{% set fullPageForm = true %}
+
+{% block submitButton %}
+    <div><input type="submit" name="preview" class="btn" value="Preview"/></div>&nbsp;
+    <div><button type="submit" class="btn submit">Send</button></div>
+{% endblock %}
+
+{% block content %}
+    {{ actionInput('leeroy-email-test/admin/send-test') }}
+
+    <div class="main">
+        <div class="field">
+            <div class="heading">
+                <label id="sites-label" for="sites">Sites</label>
+            </div>
+            <div class="select">
+                <select name="sites" id="sites">
+                {% for site in sites %}
+                <option value="{{ site.handle }}">{{ site.name }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+        </div>
+        <div class="field">
+            <div class="heading">
+                <label id="users-label" for="users">User</label>
+            </div>
+            <div class="select">
+                <select name="users" id="users">
+                    {% for user in users %}
+                        <option value="{{ user.id }}">{{ user.name }} ({{ user.groups[0].name }})</option>
+                    {% endfor %}
+                </select>
+            </div>
+        </div>
+        <div class="field">
+            <div class="heading">
+                <label id="emailType-label" for="emailType">Email Type</label>
+            </div>
+            <div class="select">
+                <select name="emailType" id="emailType">
+                    {% for systemMsg in systemMsgs %}
+                        <option value="{{ systemMsg.key }}">{{ systemMsg.subject }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+        </div>
+    </div>
+    <div class="field">
+        <div class="heading">
+            <label id="emailAddress-label" for="emailAddress">Email Address</label>
+        </div>
+        <input type="text" id="emailAddress" class="text" name="emailAddress" value="{{ defaultEmail }}" autocomplete="off" dir="ltr">
+    </div>
+{% endblock %}
+
+{% block footer %}
+
+{% endblock %}

@@ -1,0 +1,55 @@
+{
+    "name": "leeroy/craftcms-email-test",
+    "description": "Plugin to add test email sending and email templates",
+    "type": "craft-plugin",
+    "version": "1.0.0",
+    "keywords": [
+        "craft",
+        "cms",
+        "craftcms",
+        "craft-plugin",
+        "draft sharing"
+    ],
+    "support": {
+        "docs": "https://github.com/LeeroyLabs/craftcms-email-test/blob/main/README.md",
+        "issues": "https://github.com/LeeroyLabs/craftcms-email-test/issues"
+    },
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Leeroy labs",
+            "homepage": "https://github.com/LeeroyLabs"
+        }
+    ],
+    "require": {
+        "php": "^8.0",
+        "craftcms/cms": "^3.0"
+    },
+    "require-dev": {
+        "codeception/codeception": "^4.0",
+        "vlucas/phpdotenv": "^3.0",
+        "craftcms/rector": "dev-main"
+    },
+    "autoload": {
+        "psr-4": {
+            "leeroy\\leeroyemailtest\\": "src/"
+        }
+    },
+    "extra": {
+        "name": "Craftcms Email Test",
+        "handle": "craftcms-email-test",
+        "developer": "Leeroy agency",
+        "developerUrl": "https://github.com/LeeroyLabs",
+        "documentationUrl": "https://github.com/LeeroyLabs/craftcms-email-test/blob/main/README.md",
+        "changelogUrl": "https://github.com/LeeroyLabs/craftcms-email-test/main/CHANGELOG.md",
+        "class": "leeroy\\leeroyemailtest\\LeeroyEmailTest"
+    },
+    "config": {
+        "allow-plugins": {
+            "yiisoft/yii2-composer": true,
+            "craftcms/plugin-installer": true
+        }
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true
+}
