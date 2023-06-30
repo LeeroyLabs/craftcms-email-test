@@ -10,6 +10,7 @@
 
 namespace leeroyemailtest;
 
+use craft\base\Plugin;
 use craft\events\RegisterCpNavItemsEvent;
 use craft\web\twig\variables\Cp;
 use leeroyemailtest\assetbundles\leeroyemailtest\LeeroyEmailTestAsset;
@@ -40,7 +41,7 @@ use yii\base\Module;
  *
  * @property  LeeroyEmailTestServiceService $leeroyEmailTestService
  */
-class LeeroyEmailTest extends Module
+class LeeroyEmailTest extends Plugin
 {
     // Static Properties
     // =========================================================================
