@@ -14,5 +14,5 @@
  * @since     0.0.1
  */
 return [
-    'Leeroy Email Test plugin loaded' => 'Leeroy Email Test plugin loaded',
+    'Config:Initialized' => 'Email Tester plugin loaded',
 ];

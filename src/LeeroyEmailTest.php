@@ -1,8 +1,8 @@
 <?php
 /**
- * Leeroy Email Test module for Craft CMS 3.x
+ * Leeroy Email Test plugin for Craft CMS 3.x
  *
- * A module to test the templates of emails
+ * A plugin to test the templates of emails
  *
  * @link      https://github.com/1543132
  * @copyright Copyright (c) 2022 Antoine Chouinard
@@ -15,22 +15,17 @@ use craft\events\RegisterCpNavItemsEvent;
 use craft\web\twig\variables\Cp;
 use leeroy\leeroyemailtest\assetbundles\leeroyemailtest\LeeroyEmailTestAsset;
 use leeroy\leeroyemailtest\services\LeeroyEmailTestService as LeeroyEmailTestServiceService;
-use leeroy\leeroyemailtest\variables\LeeroyEmailTestVariable;
-use leeroy\leeroyemailtest\twigextensions\LeeroyEmailTestTwigExtension;
 
 use Craft;
 use craft\events\RegisterTemplateRootsEvent;
 use craft\events\TemplateEvent;
 use craft\i18n\PhpMessageSource;
 use craft\web\View;
-use craft\console\Application as ConsoleApplication;
 use craft\web\UrlManager;
-use craft\web\twig\variables\CraftVariable;
 use craft\events\RegisterUrlRulesEvent;
 
 use yii\base\Event;
 use yii\base\InvalidConfigException;
-use yii\base\Module;
 
 /**
  * Class LeeroyEmailTest
@@ -47,60 +42,87 @@ class LeeroyEmailTest extends Plugin
     // =========================================================================
 
     /**
+     * Static property that is an instance of this plugin class so that it can be accessed via
+     * DraftSharer::$plugin
+     *
      * @var LeeroyEmailTest
      */
-    public static $instance;
+    public static LeeroyEmailTest $plugin;
+
+    // Public Properties
+    // =========================================================================
+
+    /**
+     * To execute your plugin’s migrations, you’ll need to increase its schema version.
+     *
+     * @var string
+     */
+    public $schemaVersion = '1.0.0';
+
+    /**
+     * Set to `true` if the plugin should have a settings view in the control panel.
+     *
+     * @var bool
+     */
+    public $hasCpSettings = true;
+
+    /**
+     * Set to `true` if the plugin should have its own section (main nav item) in the control panel.
+     *
+     * @var bool
+     */
+    public $hasCpSection = true;
 
     // Public Methods
     // =========================================================================
 
+//    /**
+//     * @inheritdoc
+//     */
+//    public function __construct($id, $parent = null, array $config = [])
+//    {
+//        Craft::setAlias('@plugins/leeroyemailtest', $this->getBasePath());
+//        $this->controllerNamespace = 'plugins\leeroyemailtest\controllers';
+//
+//        // Translation category
+//        $i18n = Craft::$app->getI18n();
+//        /** @noinspection UnSafeIsSetOverArrayInspection */
+//        if (!isset($i18n->translations[$id]) && !isset($i18n->translations[$id.'*'])) {
+//            $i18n->translations[$id] = [
+//                'class' => PhpMessageSource::class,
+//                'sourceLanguage' => 'en-US',
+//                'basePath' => '@plugins/leeroyemailtest/translations',
+//                'forceTranslation' => true,
+//                'allowOverrides' => true,
+//            ];
+//        }
+//
+//        // Base template directory
+//        Event::on(View::class, View::EVENT_REGISTER_CP_TEMPLATE_ROOTS, function (RegisterTemplateRootsEvent $e) {
+//            if (is_dir($baseDir = $this->getBasePath().DIRECTORY_SEPARATOR.'templates')) {
+//                $e->roots[$this->id] = $baseDir;
+//            }
+//        });
+//
+//        // Set this as the global instance of this module class
+//        static::setInstance($this);
+//
+//        parent::__construct($id, $parent, $config);
+//    }
+
     /**
      * @inheritdoc
      */
-    public function __construct($id, $parent = null, array $config = [])
-    {
-        Craft::setAlias('@modules/leeroyemailtest', $this->getBasePath());
-        $this->controllerNamespace = 'modules\leeroyemailtest\controllers';
-
-        // Translation category
-        $i18n = Craft::$app->getI18n();
-        /** @noinspection UnSafeIsSetOverArrayInspection */
-        if (!isset($i18n->translations[$id]) && !isset($i18n->translations[$id.'*'])) {
-            $i18n->translations[$id] = [
-                'class' => PhpMessageSource::class,
-                'sourceLanguage' => 'en-US',
-                'basePath' => '@modules/leeroyemailtest/translations',
-                'forceTranslation' => true,
-                'allowOverrides' => true,
-            ];
-        }
-
-        // Base template directory
-        Event::on(View::class, View::EVENT_REGISTER_CP_TEMPLATE_ROOTS, function (RegisterTemplateRootsEvent $e) {
-            if (is_dir($baseDir = $this->getBasePath().DIRECTORY_SEPARATOR.'templates')) {
-                $e->roots[$this->id] = $baseDir;
-            }
-        });
-
-        // Set this as the global instance of this module class
-        static::setInstance($this);
-
-        parent::__construct($id, $parent, $config);
-    }
-
-    /**
-     * @inheritdoc
-     */
-    public function init()
+    public function init(): void
     {
         parent::init();
-        self::$instance = $this;
+        self::$plugin = $this;
 
         if (Craft::$app->getRequest()->getIsCpRequest()) {
             Event::on(
                 View::class,
                 View::EVENT_BEFORE_RENDER_TEMPLATE,
-                function (TemplateEvent $event) {
+                static function (TemplateEvent $event) {
                     try {
                         Craft::$app->getView()->registerAssetBundle(LeeroyEmailTestAsset::class);
                     } catch (InvalidConfigException $e) {
@@ -113,25 +135,10 @@ class LeeroyEmailTest extends Plugin
             );
         }
 
-        Craft::$app->view->registerTwigExtension(new LeeroyEmailTestTwigExtension());
-
-        if (Craft::$app instanceof ConsoleApplication) {
-            $this->controllerNamespace = 'modules\leeroyemailtest\console\controllers';
-        }
-
-        Event::on(
-            UrlManager::class,
-            UrlManager::EVENT_REGISTER_SITE_URL_RULES,
-            function (RegisterUrlRulesEvent $event) {
-                $event->rules['siteActionTrigger1'] = 'leeroy-email-test/default';
-            }
-        );
-
         Event::on(
             UrlManager::class,
             UrlManager::EVENT_REGISTER_CP_URL_RULES,
             function (RegisterUrlRulesEvent $event) {
-                $event->rules['cpActionTrigger1'] = 'leeroy-email-test/default/do-something';
                 $event->rules['email-tests'] = 'leeroy-email-test/admin/email-tests';
             }
         );
@@ -146,27 +153,16 @@ class LeeroyEmailTest extends Plugin
                     $event->navItems[] = [
                         'url' => 'email-tests',
                         'label' => Craft::t('site', 'Admin:EmailTests'),
-                        'icon' => '@modules/assetbundles/assets/notif.svg',
+                        'icon' => '@plugins/assetbundles/assets/notif.svg',
                     ];
                 }
-            }
-        );
-
-        Event::on(
-            CraftVariable::class,
-            CraftVariable::EVENT_INIT,
-            function (Event $event) {
-                /** @var CraftVariable $variable */
-                $variable = $event->sender;
-                $variable->set('leeroyEmailTest', LeeroyEmailTestVariable::class);
             }
         );
 
         Craft::info(
             Craft::t(
                 'leeroy-email-test',
-                '{name} module loaded',
-                ['name' => 'Leeroy Email Test']
+                'Config:Initialized'
             ),
             __METHOD__
         );
