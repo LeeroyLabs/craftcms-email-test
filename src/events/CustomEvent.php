@@ -1,6 +1,6 @@
 <?php
 
-namespace leeroyemailtest\events;
+namespace leeroy\leeroyemailtest\events;
 
 use craft\events\CancelableEvent;
 

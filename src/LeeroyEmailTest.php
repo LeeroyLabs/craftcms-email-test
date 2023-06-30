@@ -8,15 +8,15 @@
  * @copyright Copyright (c) 2022 Antoine Chouinard
  */
 
-namespace leeroyemailtest;
+namespace leeroy\leeroyemailtest;
 
 use craft\base\Plugin;
 use craft\events\RegisterCpNavItemsEvent;
 use craft\web\twig\variables\Cp;
-use leeroyemailtest\assetbundles\leeroyemailtest\LeeroyEmailTestAsset;
-use leeroyemailtest\services\LeeroyEmailTestService as LeeroyEmailTestServiceService;
-use leeroyemailtest\variables\LeeroyEmailTestVariable;
-use leeroyemailtest\twigextensions\LeeroyEmailTestTwigExtension;
+use leeroy\leeroyemailtest\assetbundles\leeroyemailtest\LeeroyEmailTestAsset;
+use leeroy\leeroyemailtest\services\LeeroyEmailTestService as LeeroyEmailTestServiceService;
+use leeroy\leeroyemailtest\variables\LeeroyEmailTestVariable;
+use leeroy\leeroyemailtest\twigextensions\LeeroyEmailTestTwigExtension;
 
 use Craft;
 use craft\events\RegisterTemplateRootsEvent;

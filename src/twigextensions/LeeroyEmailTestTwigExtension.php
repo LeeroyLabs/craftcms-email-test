@@ -8,7 +8,7 @@
  * @copyright Copyright (c) 2022 Antoine Chouinard
  */
 
-namespace leeroyemailtest\twigextensions;
+namespace leeroy\leeroyemailtest\twigextensions;
 
 use modules\leeroyemailtest\LeeroyEmailTest;
 

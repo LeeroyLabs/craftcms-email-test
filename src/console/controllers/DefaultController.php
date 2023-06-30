@@ -8,7 +8,7 @@
  * @copyright Copyright (c) 2022 Antoine Chouinard
  */
 
-namespace leeroyemailtest\console\controllers;
+namespace leeroy\leeroyemailtest\console\controllers;
 
 use modules\leeroyemailtest\LeeroyEmailTest;
 

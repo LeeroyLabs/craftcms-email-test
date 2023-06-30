@@ -8,7 +8,7 @@
  * @copyright Copyright (c) 2022 Antoine Chouinard
  */
 
-namespace leeroyemailtest\assetbundles\leeroyemailtest;
+namespace leeroy\leeroyemailtest\assetbundles\leeroyemailtest;
 
 use Craft;
 use craft\web\AssetBundle;

@@ -8,7 +8,7 @@
  * @copyright Copyright (c) 2022 Antoine Chouinard
  */
 
-namespace leeroyemailtest\services;
+namespace leeroy\leeroyemailtest\services;
 
 use modules\leeroyemailtest\LeeroyEmailTest;
 
