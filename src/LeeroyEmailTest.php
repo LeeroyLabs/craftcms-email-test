@@ -17,9 +17,7 @@ use leeroy\leeroyemailtest\assetbundles\leeroyemailtest\LeeroyEmailTestAsset;
 use leeroy\leeroyemailtest\services\LeeroyEmailTestService as LeeroyEmailTestServiceService;
 
 use Craft;
-use craft\events\RegisterTemplateRootsEvent;
 use craft\events\TemplateEvent;
-use craft\i18n\PhpMessageSource;
 use craft\web\View;
 use craft\web\UrlManager;
 use craft\events\RegisterUrlRulesEvent;
@@ -76,40 +74,6 @@ class LeeroyEmailTest extends Plugin
     // Public Methods
     // =========================================================================
 
-//    /**
-//     * @inheritdoc
-//     */
-//    public function __construct($id, $parent = null, array $config = [])
-//    {
-//        Craft::setAlias('@plugins/leeroyemailtest', $this->getBasePath());
-//        $this->controllerNamespace = 'plugins\leeroyemailtest\controllers';
-//
-//        // Translation category
-//        $i18n = Craft::$app->getI18n();
-//        /** @noinspection UnSafeIsSetOverArrayInspection */
-//        if (!isset($i18n->translations[$id]) && !isset($i18n->translations[$id.'*'])) {
-//            $i18n->translations[$id] = [
-//                'class' => PhpMessageSource::class,
-//                'sourceLanguage' => 'en-US',
-//                'basePath' => '@plugins/leeroyemailtest/translations',
-//                'forceTranslation' => true,
-//                'allowOverrides' => true,
-//            ];
-//        }
-//
-//        // Base template directory
-//        Event::on(View::class, View::EVENT_REGISTER_CP_TEMPLATE_ROOTS, function (RegisterTemplateRootsEvent $e) {
-//            if (is_dir($baseDir = $this->getBasePath().DIRECTORY_SEPARATOR.'templates')) {
-//                $e->roots[$this->id] = $baseDir;
-//            }
-//        });
-//
-//        // Set this as the global instance of this module class
-//        static::setInstance($this);
-//
-//        parent::__construct($id, $parent, $config);
-//    }
-
     /**
      * @inheritdoc
      */
@@ -138,7 +102,7 @@ class LeeroyEmailTest extends Plugin
         Event::on(
             UrlManager::class,
             UrlManager::EVENT_REGISTER_CP_URL_RULES,
-            function (RegisterUrlRulesEvent $event) {
+            static function (RegisterUrlRulesEvent $event) {
                 $event->rules['email-tests'] = 'leeroy-email-test/admin/email-tests';
             }
         );
@@ -147,12 +111,11 @@ class LeeroyEmailTest extends Plugin
         Event::on(
             Cp::class,
             Cp::EVENT_REGISTER_CP_NAV_ITEMS,
-            function (RegisterCpNavItemsEvent $event) {
-
+            static function (RegisterCpNavItemsEvent $event) {
                 if (Craft::$app->getUser()->getIsAdmin()) {
                     $event->navItems[] = [
                         'url' => 'email-tests',
-                        'label' => Craft::t('site', 'Admin:EmailTests'),
+                        'label' => Craft::t('leeroy-email-test', 'Admin:EmailTests'),
                         'icon' => '@plugins/assetbundles/assets/notif.svg',
                     ];
                 }

@@ -15,4 +15,5 @@
  */
 return [
     'Config:Initialized' => 'Email Tester plugin loaded',
+    'Admin:EmailTests' => 'Email Tester'
 ];

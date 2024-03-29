@@ -29,7 +29,7 @@ class LeeroyEmailTestAsset extends AssetBundle
      */
     public function init()
     {
-        $this->sourcePath = "@modules/leeroyemailtest/assetbundles/leeroyemailtest/dist";
+        $this->sourcePath = "@leeroy/leeroyemailtest/assetbundles/leeroyemailtest/dist";
 
         $this->depends = [
             CpAsset::class,

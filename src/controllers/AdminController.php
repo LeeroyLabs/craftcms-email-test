@@ -11,13 +11,10 @@
 namespace leeroy\leeroyemailtest\controllers;
 
 use craft\events\TemplateEvent;
-use modules\cqtsmodule\CqtsModule;
-use modules\leeroyemailtest\events\CustomEvent;
-use modules\leeroyemailtest\LeeroyEmailTest;
+use leeroy\leeroyemailtest\LeeroyEmailTest;
 
 use Craft;
 use craft\web\Controller;
-use modules\Module;
 use yii\web\BadRequestHttpException;
 use yii\web\Response;
 
@@ -49,7 +46,8 @@ class AdminController extends Controller
      * @return Response|null
      * @throws BadRequestHttpException
      */
-    public function actionSendTest() {
+    public function actionSendTest(): ?Response
+    {
         $site         = $this->request->getBodyParam('sites');
         $user         = $this->request->getBodyParam('users');
         $emailType    = $this->request->getBodyParam('emailType');
